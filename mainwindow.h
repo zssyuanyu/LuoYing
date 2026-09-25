@@ -41,7 +41,7 @@ private:
     void sendRequest(bool stream);
     void processToolCalls(const QJsonArray &toolCalls);
     void scrollToBottom();
-
+    QString resolvePath(const QString &input);
     void startServer();
     bool isServerRunning();
     QString findServerPath();
@@ -60,7 +60,6 @@ private:
     QPointer<QNetworkReply> m_currentReply;
     QPointer<MessageBubble> m_currentBubble;
 
-    // 流式解析相关
     QString m_assistantText;
     QByteArray m_contentBytes;
     QByteArray m_streamBuffer;

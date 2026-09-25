@@ -1,0 +1,250 @@
+18:39:26.240 [DEBUG] [SSE] payload size: 326 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":null}}],\"created\":1790332766,\"id\":\"cha"
+18:39:26.240 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\xBA\xE4\xBA\x86\"}}],\"created\":1790332766,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:26.240 [DEBUG] [SSE] content piece len: 2 total: 2
+18:39:26.422 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x9F\xA5\xE7\x9C\x8B\"}}],\"created\":1790332766,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:26.425 [DEBUG] [SSE] content piece len: 2 total: 4
+18:39:26.605 [DEBUG] [SSE] payload size: 307 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" `\"}}],\"created\":1790332766,\"id\":\"chatcmpl-u28Vy7gABeSrA"
+18:39:26.605 [DEBUG] [SSE] content piece len: 2 total: 6
+18:39:26.785 [DEBUG] [SSE] payload size: 306 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"C\"}}],\"created\":1790332766,\"id\":\"chatcmpl-u28Vy7gABeSrAz"
+18:39:26.785 [DEBUG] [SSE] content piece len: 1 total: 7
+18:39:26.968 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"Make\"}}],\"created\":1790332766,\"id\":\"chatcmpl-u28Vy7gABeS"
+18:39:26.968 [DEBUG] [SSE] content piece len: 4 total: 11
+18:39:27.153 [DEBUG] [SSE] payload size: 310 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"Lists\"}}],\"created\":1790332767,\"id\":\"chatcmpl-u28Vy7gABe"
+18:39:27.153 [DEBUG] [SSE] content piece len: 5 total: 16
+18:39:27.320 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\".txt\"}}],\"created\":1790332767,\"id\":\"chatcmpl-u28Vy7gABeS"
+18:39:27.335 [DEBUG] [SSE] content piece len: 4 total: 20
+18:39:27.530 [DEBUG] [SSE] payload size: 306 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"`\"}}],\"created\":1790332767,\"id\":\"chatcmpl-u28Vy7gABeSrAz"
+18:39:27.531 [DEBUG] [SSE] content piece len: 1 total: 21
+18:39:27.722 [DEBUG] [SSE] payload size: 312 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" \xE6\x96\x87\xE4\xBB\xB6\"}}],\"created\":1790332767,\"id\":\"chatcmpl-u28Vy7gA"
+18:39:27.723 [DEBUG] [SSE] content piece len: 3 total: 24
+18:39:27.900 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE7\x9A\x84\"}}],\"created\":1790332767,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:27.900 [DEBUG] [SSE] content piece len: 1 total: 25
+18:39:28.093 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xA4\xA7\xE5\xB0\x8F\"}}],\"created\":1790332768,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:28.093 [DEBUG] [SSE] content piece len: 2 total: 27
+18:39:28.293 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xEF\xBC\x8C\"}}],\"created\":1790332768,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:28.293 [DEBUG] [SSE] content piece len: 1 total: 28
+18:39:28.471 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x88\x91\"}}],\"created\":1790332768,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:28.471 [DEBUG] [SSE] content piece len: 1 total: 29
+18:39:28.652 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE9\x9C\x80\xE8\xA6\x81\"}}],\"created\":1790332768,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:28.652 [DEBUG] [SSE] content piece len: 2 total: 31
+18:39:28.834 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\x85\x88\"}}],\"created\":1790332768,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:28.834 [DEBUG] [SSE] content piece len: 1 total: 32
+18:39:29.019 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x89\xBE\xE5\x88\xB0\"}}],\"created\":1790332769,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:29.019 [DEBUG] [SSE] content piece len: 2 total: 34
+18:39:29.197 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xAE\x83\"}}],\"created\":1790332769,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:29.197 [DEBUG] [SSE] content piece len: 1 total: 35
+18:39:29.380 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE3\x80\x82\"}}],\"created\":1790332769,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:29.380 [DEBUG] [SSE] content piece len: 1 total: 36
+18:39:29.567 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE8\xAF\xB7\"}}],\"created\":1790332769,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:29.569 [DEBUG] [SSE] content piece len: 1 total: 37
+18:39:29.753 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\x85\x81\xE8\xAE\xB8\"}}],\"created\":1790332769,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:29.753 [DEBUG] [SSE] content piece len: 2 total: 39
+18:39:29.934 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x88\x91\"}}],\"created\":1790332769,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:29.936 [DEBUG] [SSE] content piece len: 1 total: 40
+18:39:30.101 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x90\x9C\xE7\xB4\xA2\"}}],\"created\":1790332770,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:30.110 [DEBUG] [SSE] content piece len: 2 total: 42
+18:39:30.291 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\x80\xE4\xB8\x8B\"}}],\"created\":1790332770,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:30.293 [DEBUG] [SSE] content piece len: 2 total: 44
+18:39:30.463 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xBD\x93\xE5\x89\x8D\"}}],\"created\":1790332770,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:30.470 [DEBUG] [SSE] content piece len: 2 total: 46
+18:39:30.648 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE7\x9B\xAE\xE5\xBD\x95\"}}],\"created\":1790332770,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:30.648 [DEBUG] [SSE] content piece len: 2 total: 48
+18:39:30.817 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\x8F\x8A\xE5\x85\xB6\"}}],\"created\":1790332770,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:30.817 [DEBUG] [SSE] content piece len: 2 total: 50
+18:39:30.996 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xAD\x90\"}}],\"created\":1790332770,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:30.996 [DEBUG] [SSE] content piece len: 1 total: 51
+18:39:31.175 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE7\x9B\xAE\xE5\xBD\x95\"}}],\"created\":1790332771,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:31.175 [DEBUG] [SSE] content piece len: 2 total: 53
+18:39:31.347 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\xAD\"}}],\"created\":1790332771,\"id\":\"chatcmpl-u28Vy7gABeSr"
+18:39:31.347 [DEBUG] [SSE] content piece len: 1 total: 54
+18:39:31.531 [DEBUG] [SSE] payload size: 314 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x98\xAF\xE5\x90\xA6\xE6\x9C\x89\"}}],\"created\":1790332771,\"id\":\"chatcmpl-u28Vy7"
+18:39:31.531 [DEBUG] [SSE] content piece len: 3 total: 57
+18:39:31.719 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE8\xBF\x99\xE4\xB8\xAA\"}}],\"created\":1790332771,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:31.719 [DEBUG] [SSE] content piece len: 2 total: 59
+18:39:31.900 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x96\x87\xE4\xBB\xB6\"}}],\"created\":1790332771,\"id\":\"chatcmpl-u28Vy7gAB"
+18:39:31.900 [DEBUG] [SSE] content piece len: 2 total: 61
+18:39:32.072 [DEBUG] [SSE] payload size: 310 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE3\x80\x82\\n\"}}],\"created\":1790332772,\"id\":\"chatcmpl-u28Vy7gABe"
+18:39:32.072 [DEBUG] [SSE] content piece len: 2 total: 63
+18:39:33.681 [DEBUG] [SSE] payload size: 428 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"u2LxlCISgRUTAq0l8TD5RTkLOE9UQcoO\",\"t"
+18:39:33.683 [DEBUG] [SSE] tool_call idx: 0
+18:39:34.377 [DEBUG] [SSE] payload size: 349 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"\"}}]}}],\"create"
+18:39:34.379 [DEBUG] [SSE] tool_call idx: 0
+18:39:34.567 [DEBUG] [SSE] payload size: 354 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"keyword\"}}]}}],\"c"
+18:39:34.567 [DEBUG] [SSE] tool_call idx: 0
+18:39:34.737 [DEBUG] [SSE] payload size: 350 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\":\"}}]}}],\"creat"
+18:39:34.737 [DEBUG] [SSE] tool_call idx: 0
+18:39:34.928 [DEBUG] [SSE] payload size: 350 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\" \\\"\"}}]}}],\"creat"
+18:39:34.928 [DEBUG] [SSE] tool_call idx: 0
+18:39:35.096 [DEBUG] [SSE] payload size: 348 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"C\"}}]}}],\"created"
+18:39:35.096 [DEBUG] [SSE] tool_call idx: 0
+18:39:35.266 [DEBUG] [SSE] payload size: 351 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"Make\"}}]}}],\"crea"
+18:39:35.268 [DEBUG] [SSE] tool_call idx: 0
+18:39:35.447 [DEBUG] [SSE] payload size: 352 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"Lists\"}}]}}],\"cre"
+18:39:35.447 [DEBUG] [SSE] tool_call idx: 0
+18:39:35.622 [DEBUG] [SSE] payload size: 351 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\".txt\"}}]}}],\"crea"
+18:39:35.622 [DEBUG] [SSE] tool_call idx: 0
+18:39:35.794 [DEBUG] [SSE] payload size: 350 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"}\"}}]}}],\"creat"
+18:39:35.805 [DEBUG] [SSE] tool_call idx: 0
+18:39:36.148 [DEBUG] [SSE] payload size: 569 head: "{\"choices\":[{\"finish_reason\":\"tool_calls\",\"index\":0,\"delta\":{}}],\"created\":1790332776,\"id\":\"chatcmpl-u28Vy7gABeSrAzdBSrM"
+18:39:36.155 [DEBUG] [Tool] processToolCalls count: 1
+18:39:36.155 [DEBUG] [Tool] call: "search_files" args len: 29 args: "{\"keyword\": \"CMakeLists.txt\"}"
+18:39:36.185 [DEBUG] [Tool] result len: 45
+18:39:39.454 [DEBUG] [SSE] payload size: 326 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":null}}],\"created\":1790332779,\"id\":\"cha"
+18:39:39.455 [DEBUG] [SSE] payload size: 314 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x89\xBE\xE5\x88\xB0\xE4\xBA\x86\"}}],\"created\":1790332779,\"id\":\"chatcmpl-iWIc0x"
+18:39:39.456 [DEBUG] [SSE] content piece len: 3 total: 3
+18:39:39.631 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\x80\xE4\xB8\xAA\"}}],\"created\":1790332779,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:39.647 [DEBUG] [SSE] content piece len: 2 total: 5
+18:39:39.833 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\x90\x8D\xE4\xB8\xBA\"}}],\"created\":1790332779,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:39.833 [DEBUG] [SSE] content piece len: 2 total: 7
+18:39:40.010 [DEBUG] [SSE] payload size: 307 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" `\"}}],\"created\":1790332780,\"id\":\"chatcmpl-iWIc0xbgYwJ2Q"
+18:39:40.013 [DEBUG] [SSE] content piece len: 2 total: 9
+18:39:40.197 [DEBUG] [SSE] payload size: 306 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"C\"}}],\"created\":1790332780,\"id\":\"chatcmpl-iWIc0xbgYwJ2QS"
+18:39:40.197 [DEBUG] [SSE] content piece len: 1 total: 10
+18:39:40.382 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"Make\"}}],\"created\":1790332780,\"id\":\"chatcmpl-iWIc0xbgYwJ"
+18:39:40.384 [DEBUG] [SSE] content piece len: 4 total: 14
+18:39:40.559 [DEBUG] [SSE] payload size: 310 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"Lists\"}}],\"created\":1790332780,\"id\":\"chatcmpl-iWIc0xbgYw"
+18:39:40.559 [DEBUG] [SSE] content piece len: 5 total: 19
+18:39:40.747 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\".txt\"}}],\"created\":1790332780,\"id\":\"chatcmpl-iWIc0xbgYwJ"
+18:39:40.749 [DEBUG] [SSE] content piece len: 4 total: 23
+18:39:40.929 [DEBUG] [SSE] payload size: 306 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"`\"}}],\"created\":1790332780,\"id\":\"chatcmpl-iWIc0xbgYwJ2QS"
+18:39:40.930 [DEBUG] [SSE] content piece len: 1 total: 24
+18:39:41.096 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" \xE7\x9A\x84\"}}],\"created\":1790332781,\"id\":\"chatcmpl-iWIc0xbgYwJ"
+18:39:41.096 [DEBUG] [SSE] content piece len: 2 total: 26
+18:39:41.273 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x96\x87\xE4\xBB\xB6\"}}],\"created\":1790332781,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:41.273 [DEBUG] [SSE] content piece len: 2 total: 28
+18:39:41.467 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xEF\xBC\x8C\"}}],\"created\":1790332781,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:41.467 [DEBUG] [SSE] content piece len: 1 total: 29
+18:39:41.646 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xBD\x86\xE6\x98\xAF\"}}],\"created\":1790332781,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:41.646 [DEBUG] [SSE] content piece len: 2 total: 31
+18:39:41.829 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xAE\x83\"}}],\"created\":1790332781,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:41.829 [DEBUG] [SSE] content piece len: 1 total: 32
+18:39:42.004 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xBD\x8D\xE4\xBA\x8E\"}}],\"created\":1790332782,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:42.004 [DEBUG] [SSE] content piece len: 2 total: 34
+18:39:42.183 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" `.\"}}],\"created\":1790332782,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:42.183 [DEBUG] [SSE] content piece len: 3 total: 37
+18:39:42.348 [DEBUG] [SSE] payload size: 307 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"qt\"}}],\"created\":1790332782,\"id\":\"chatcmpl-iWIc0xbgYwJ2Q"
+18:39:42.348 [DEBUG] [SSE] content piece len: 2 total: 39
+18:39:42.530 [DEBUG] [SSE] payload size: 312 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"creator\"}}],\"created\":1790332782,\"id\":\"chatcmpl-iWIc0xbg"
+18:39:42.530 [DEBUG] [SSE] content piece len: 7 total: 46
+18:39:42.720 [DEBUG] [SSE] payload size: 306 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"`\"}}],\"created\":1790332782,\"id\":\"chatcmpl-iWIc0xbgYwJ2QS"
+18:39:42.724 [DEBUG] [SSE] content piece len: 1 total: 47
+18:39:43.085 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" \xE7\x9B\xAE\"}}],\"created\":1790332783,\"id\":\"chatcmpl-iWIc0xbgYwJ"
+18:39:43.085 [DEBUG] [SSE] content piece len: 2 total: 49
+18:39:43.258 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xBD\x95\"}}],\"created\":1790332783,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:43.258 [DEBUG] [SSE] content piece len: 1 total: 50
+18:39:43.435 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\x8B\xE7\x9A\x84\"}}],\"created\":1790332783,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:43.435 [DEBUG] [SSE] content piece len: 2 total: 52
+18:39:43.621 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" `.\"}}],\"created\":1790332783,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:43.621 [DEBUG] [SSE] content piece len: 3 total: 55
+18:39:43.803 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"user\"}}],\"created\":1790332783,\"id\":\"chatcmpl-iWIc0xbgYwJ"
+18:39:43.803 [DEBUG] [SSE] content piece len: 4 total: 59
+18:39:43.985 [DEBUG] [SSE] payload size: 306 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"`\"}}],\"created\":1790332783,\"id\":\"chatcmpl-iWIc0xbgYwJ2QS"
+18:39:43.989 [DEBUG] [SSE] content piece len: 1 total: 60
+18:39:44.348 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" \xE5\xAD\x90\"}}],\"created\":1790332784,\"id\":\"chatcmpl-iWIc0xbgYwJ"
+18:39:44.348 [DEBUG] [SSE] content piece len: 2 total: 62
+18:39:44.535 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE7\x9B\xAE\xE5\xBD\x95\"}}],\"created\":1790332784,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:44.535 [DEBUG] [SSE] content piece len: 2 total: 64
+18:39:44.716 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\xAD\"}}],\"created\":1790332784,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:44.716 [DEBUG] [SSE] content piece len: 1 total: 65
+18:39:44.904 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE3\x80\x82\"}}],\"created\":1790332784,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:44.904 [DEBUG] [SSE] content piece len: 1 total: 66
+18:39:45.082 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x88\x91\"}}],\"created\":1790332785,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:45.082 [DEBUG] [SSE] content piece len: 1 total: 67
+18:39:45.254 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xB0\x86\"}}],\"created\":1790332785,\"id\":\"chatcmpl-iWIc0xbgYwJ2"
+18:39:45.254 [DEBUG] [SSE] content piece len: 1 total: 68
+18:39:45.444 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x9F\xA5\xE7\x9C\x8B\"}}],\"created\":1790332785,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:45.444 [DEBUG] [SSE] content piece len: 2 total: 70
+18:39:45.625 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xAE\x83\xE7\x9A\x84\"}}],\"created\":1790332785,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:45.625 [DEBUG] [SSE] content piece len: 2 total: 72
+18:39:45.806 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xA4\xA7\xE5\xB0\x8F\"}}],\"created\":1790332785,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:45.806 [DEBUG] [SSE] content piece len: 2 total: 74
+18:39:46.001 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xBF\xA1\xE6\x81\xAF\"}}],\"created\":1790332785,\"id\":\"chatcmpl-iWIc0xbgY"
+18:39:46.001 [DEBUG] [SSE] content piece len: 2 total: 76
+18:39:46.184 [DEBUG] [SSE] payload size: 312 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE3\x80\x82\\n\\n\"}}],\"created\":1790332786,\"id\":\"chatcmpl-iWIc0xbg"
+18:39:46.189 [DEBUG] [SSE] content piece len: 3 total: 79
+18:39:48.034 [DEBUG] [SSE] payload size: 429 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"id\":\"x0hxsZe5j1IoOeoXpBSM0CJSoUX31bXw\",\"t"
+18:39:48.036 [DEBUG] [SSE] tool_call idx: 0
+18:39:48.759 [DEBUG] [SSE] payload size: 349 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"\"}}]}}],\"create"
+18:39:48.762 [DEBUG] [SSE] tool_call idx: 0
+18:39:48.933 [DEBUG] [SSE] payload size: 351 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"path\"}}]}}],\"crea"
+18:39:48.937 [DEBUG] [SSE] tool_call idx: 0
+18:39:49.115 [DEBUG] [SSE] payload size: 350 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\":\"}}]}}],\"creat"
+18:39:49.115 [DEBUG] [SSE] tool_call idx: 0
+18:39:49.294 [DEBUG] [SSE] payload size: 351 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\" \\\".\"}}]}}],\"crea"
+18:39:49.294 [DEBUG] [SSE] tool_call idx: 0
+18:39:49.464 [DEBUG] [SSE] payload size: 349 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"qt\"}}]}}],\"create"
+18:39:49.466 [DEBUG] [SSE] tool_call idx: 0
+18:39:49.641 [DEBUG] [SSE] payload size: 354 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"creator\"}}]}}],\"c"
+18:39:49.643 [DEBUG] [SSE] tool_call idx: 0
+18:39:49.817 [DEBUG] [SSE] payload size: 349 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"/.\"}}]}}],\"create"
+18:39:49.817 [DEBUG] [SSE] tool_call idx: 0
+18:39:49.982 [DEBUG] [SSE] payload size: 351 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"user\"}}]}}],\"crea"
+18:39:49.982 [DEBUG] [SSE] tool_call idx: 0
+18:39:50.171 [DEBUG] [SSE] payload size: 349 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"/C\"}}]}}],\"create"
+18:39:50.186 [DEBUG] [SSE] tool_call idx: 0
+18:39:50.366 [DEBUG] [SSE] payload size: 351 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"Make\"}}]}}],\"crea"
+18:39:50.368 [DEBUG] [SSE] tool_call idx: 0
+18:39:50.549 [DEBUG] [SSE] payload size: 352 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"Lists\"}}]}}],\"cre"
+18:39:50.549 [DEBUG] [SSE] tool_call idx: 0
+18:39:50.726 [DEBUG] [SSE] payload size: 351 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\".txt\"}}]}}],\"crea"
+18:39:50.729 [DEBUG] [SSE] tool_call idx: 0
+18:39:50.908 [DEBUG] [SSE] payload size: 350 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"tool_calls\":[{\"index\":0,\"function\":{\"arguments\":\"\\\"}\"}}]}}],\"creat"
+18:39:50.908 [DEBUG] [SSE] tool_call idx: 0
+18:39:51.248 [DEBUG] [SSE] payload size: 569 head: "{\"choices\":[{\"finish_reason\":\"tool_calls\",\"index\":0,\"delta\":{}}],\"created\":1790332791,\"id\":\"chatcmpl-iWIc0xbgYwJ2QStQafl"
+18:39:51.264 [DEBUG] [Tool] processToolCalls count: 1
+18:39:51.264 [DEBUG] [Tool] call: "get_file_info" args len: 43 args: "{\"path\": \".qtcreator/.user/CMakeLists.txt\"}"
+18:39:51.273 [DEBUG] [Tool] result len: 43
+18:39:54.140 [DEBUG] [SSE] payload size: 326 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"role\":\"assistant\",\"content\":null}}],\"created\":1790332794,\"id\":\"cha"
+18:39:54.140 [DEBUG] [SSE] payload size: 314 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE7\x9C\x8B\xE8\xB5\xB7\xE6\x9D\xA5\"}}],\"created\":1790332794,\"id\":\"chatcmpl-d1WC2W"
+18:39:54.140 [DEBUG] [SSE] content piece len: 3 total: 3
+18:39:54.330 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xBD\x93\xE5\x89\x8D\"}}],\"created\":1790332794,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:54.332 [DEBUG] [SSE] content piece len: 2 total: 5
+18:39:54.507 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE7\x9B\xAE\xE5\xBD\x95\"}}],\"created\":1790332794,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:54.507 [DEBUG] [SSE] content piece len: 2 total: 7
+18:39:54.692 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\x8B\"}}],\"created\":1790332794,\"id\":\"chatcmpl-d1WC2WcyEMPI"
+18:39:54.692 [DEBUG] [SSE] content piece len: 1 total: 8
+18:39:54.872 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\xB2\xA1\xE6\x9C\x89\"}}],\"created\":1790332794,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:54.872 [DEBUG] [SSE] content piece len: 2 total: 10
+18:39:55.050 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\x90\x8D\xE4\xB8\xBA\"}}],\"created\":1790332795,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:55.052 [DEBUG] [SSE] content piece len: 2 total: 12
+18:39:55.241 [DEBUG] [SSE] payload size: 307 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" `\"}}],\"created\":1790332795,\"id\":\"chatcmpl-d1WC2WcyEMPIJ"
+18:39:55.241 [DEBUG] [SSE] content piece len: 2 total: 14
+18:39:55.424 [DEBUG] [SSE] payload size: 306 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"C\"}}],\"created\":1790332795,\"id\":\"chatcmpl-d1WC2WcyEMPIJq"
+18:39:55.424 [DEBUG] [SSE] content piece len: 1 total: 15
+18:39:55.590 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"Make\"}}],\"created\":1790332795,\"id\":\"chatcmpl-d1WC2WcyEMP"
+18:39:55.590 [DEBUG] [SSE] content piece len: 4 total: 19
+18:39:55.795 [DEBUG] [SSE] payload size: 310 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"Lists\"}}],\"created\":1790332795,\"id\":\"chatcmpl-d1WC2WcyEM"
+18:39:55.797 [DEBUG] [SSE] content piece len: 5 total: 24
+18:39:55.973 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\".txt\"}}],\"created\":1790332795,\"id\":\"chatcmpl-d1WC2WcyEMP"
+18:39:55.973 [DEBUG] [SSE] content piece len: 4 total: 28
+18:39:56.140 [DEBUG] [SSE] payload size: 306 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"`\"}}],\"created\":1790332796,\"id\":\"chatcmpl-d1WC2WcyEMPIJq"
+18:39:56.149 [DEBUG] [SSE] content piece len: 1 total: 29
+18:39:56.336 [DEBUG] [SSE] payload size: 309 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\" \xE7\x9A\x84\"}}],\"created\":1790332796,\"id\":\"chatcmpl-d1WC2WcyEMP"
+18:39:56.336 [DEBUG] [SSE] content piece len: 2 total: 31
+18:39:56.518 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x96\x87\xE4\xBB\xB6\"}}],\"created\":1790332796,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:56.518 [DEBUG] [SSE] content piece len: 2 total: 33
+18:39:56.702 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE3\x80\x82\"}}],\"created\":1790332796,\"id\":\"chatcmpl-d1WC2WcyEMPI"
+18:39:56.704 [DEBUG] [SSE] content piece len: 1 total: 34
+18:39:56.876 [DEBUG] [SSE] payload size: 314 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xBD\xA0\xE5\x8F\xAF\xE4\xBB\xA5\"}}],\"created\":1790332796,\"id\":\"chatcmpl-d1WC2W"
+18:39:56.876 [DEBUG] [SSE] content piece len: 3 total: 37
+18:39:57.055 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\xB0\x9D\xE8\xAF\x95\"}}],\"created\":1790332797,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:57.057 [DEBUG] [SSE] content piece len: 2 total: 39
+18:39:57.237 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE5\x88\x9B\xE5\xBB\xBA\"}}],\"created\":1790332797,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:57.237 [DEBUG] [SSE] content piece len: 2 total: 41
+18:39:57.417 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\x80\xE4\xB8\xAA\"}}],\"created\":1790332797,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:57.419 [DEBUG] [SSE] content piece len: 2 total: 43
+18:39:57.602 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x88\x96\xE8\x80\x85\"}}],\"created\":1790332797,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:57.602 [DEBUG] [SSE] content piece len: 2 total: 45
+18:39:57.786 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\x8A\xE4\xBC\xA0\"}}],\"created\":1790332797,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:57.786 [DEBUG] [SSE] content piece len: 2 total: 47
+18:39:57.967 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE4\xB8\x80\xE4\xB8\xAA\"}}],\"created\":1790332797,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:57.969 [DEBUG] [SSE] content piece len: 2 total: 49
+18:39:58.150 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x96\x87\xE4\xBB\xB6\"}}],\"created\":1790332798,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:58.150 [DEBUG] [SSE] content piece len: 2 total: 51
+18:39:58.330 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE7\xBB\x99\xE6\x88\x91\"}}],\"created\":1790332798,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:58.330 [DEBUG] [SSE] content piece len: 2 total: 53
+18:39:58.500 [DEBUG] [SSE] payload size: 311 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE6\x9F\xA5\xE7\x9C\x8B\"}}],\"created\":1790332798,\"id\":\"chatcmpl-d1WC2WcyE"
+18:39:58.500 [DEBUG] [SSE] content piece len: 2 total: 55
+18:39:58.701 [DEBUG] [SSE] payload size: 308 head: "{\"choices\":[{\"finish_reason\":null,\"index\":0,\"delta\":{\"content\":\"\xE3\x80\x82\"}}],\"created\":1790332798,\"id\":\"chatcmpl-d1WC2WcyEMPI"
+18:39:58.701 [DEBUG] [SSE] content piece len: 1 total: 56
+18:39:58.902 [DEBUG] [SSE] payload size: 557 head: "{\"choices\":[{\"finish_reason\":\"stop\",\"index\":0,\"delta\":{}}],\"created\":1790332798,\"id\":\"chatcmpl-d1WC2WcyEMPIJqloSkfHbNYCl"

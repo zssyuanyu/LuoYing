@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
+#include <QDirIterator>
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QLabel>
@@ -21,6 +22,33 @@
 
 static constexpr int kMaxHistoryMessages = 20;
 static constexpr int kServerPort = 8080;
+
+// ============ 路径安全 ============
+
+// 返回 true 表示允许访问该路径
+static bool isPathAllowed(const QString &absPath)
+{
+    const QString lower = QDir::toNativeSeparators(absPath).toLower();
+
+    // 系统敏感目录黑名单
+    static const QStringList blockedRoots = {
+        QStringLiteral("c:\\windows"),
+        QStringLiteral("c:\\program files"),
+        QStringLiteral("c:\\program files (x86)"),
+        QStringLiteral("c:\\programdata"),
+        QStringLiteral("c:\\$recycle.bin"),
+        QStringLiteral("c:\\system volume information"),
+        QStringLiteral("c:\\recovery"),
+        QStringLiteral("c:\\perflogs"),
+    };
+
+    for (const QString &blocked : blockedRoots) {
+        if (lower.startsWith(blocked)) {
+            return false;
+        }
+    }
+    return true;
+}
 
 // ============ 消息气泡 ============
 
@@ -257,6 +285,7 @@ QString MainWindow::findModelPath()
 
 QString MainWindow::findWorkDir()
 {
+    // 保持返回项目根目录，作为默认工作目录（用于相对路径解析）
     QDir dir(QCoreApplication::applicationDirPath());
     for (int i = 0; i < 3; ++i) {
         if (QFile::exists(dir.absoluteFilePath(QStringLiteral("CMakeLists.txt")))) {
@@ -267,6 +296,26 @@ QString MainWindow::findWorkDir()
         }
     }
     return QCoreApplication::applicationDirPath();
+}
+
+// 把用户输入的路径解析为绝对路径
+QString MainWindow::resolvePath(const QString &input)
+{
+    const QString trimmed = input.trimmed();
+
+    // 空路径 → 工作目录
+    if (trimmed.isEmpty()) {
+        return findWorkDir();
+    }
+
+    // 绝对路径
+    QFileInfo info(trimmed);
+    if (info.isAbsolute()) {
+        return QDir::cleanPath(trimmed);
+    }
+
+    // 相对路径 → 相对工作目录
+    return QDir::cleanPath(QDir(findWorkDir()).absoluteFilePath(trimmed));
 }
 
 void MainWindow::startServer()
@@ -300,8 +349,11 @@ void MainWindow::startServer()
     args << QStringLiteral("-m") << modelPath
          << QStringLiteral("--host") << QStringLiteral("127.0.0.1")
          << QStringLiteral("--port") << QString::number(kServerPort)
-         << QStringLiteral("-t") << QStringLiteral("4")
-         << QStringLiteral("-c") << QStringLiteral("4096")
+         << QStringLiteral("-t") << QStringLiteral("8")
+         << QStringLiteral("-c") << QStringLiteral("2048")
+         << QStringLiteral("-ctk") << QStringLiteral("q8_0")
+         << QStringLiteral("-ctv") << QStringLiteral("q8_0")
+         << QStringLiteral("--flash-attn") << QStringLiteral("on")
          << QStringLiteral("--jinja");
 
     m_ownServer = true;
@@ -489,12 +541,13 @@ QJsonArray MainWindow::buildTools()
         QJsonObject fn;
         fn[QStringLiteral("name")] = QStringLiteral("read_file");
         fn[QStringLiteral("description")] =
-            QStringLiteral("读取络樱工作目录下的文本文件内容。当用户要求查看某个文件时调用。");
+            QStringLiteral("读取电脑上任意文本文件的内容。支持绝对路径（如 D:/test.txt）"
+                           "和相对工作目录的路径。系统目录（如 C:/Windows）会被拒绝。");
 
         QJsonObject props;
         QJsonObject pathProp;
         pathProp[QStringLiteral("type")] = QStringLiteral("string");
-        pathProp[QStringLiteral("description")] = QStringLiteral("相对于络樱工作目录的文件路径");
+        pathProp[QStringLiteral("description")] = QStringLiteral("文件路径");
         props[QStringLiteral("path")] = pathProp;
 
         QJsonObject params;
@@ -514,13 +567,13 @@ QJsonArray MainWindow::buildTools()
         QJsonObject fn;
         fn[QStringLiteral("name")] = QStringLiteral("list_directory");
         fn[QStringLiteral("description")] =
-            QStringLiteral("列出络樱工作目录下的文件和子目录。当用户要求查看有哪些文件时调用。");
+            QStringLiteral("列出电脑上任意目录下的文件和子目录。支持绝对路径和相对路径。");
 
         QJsonObject props;
         QJsonObject pathProp;
         pathProp[QStringLiteral("type")] = QStringLiteral("string");
         pathProp[QStringLiteral("description")] =
-            QStringLiteral("相对于工作目录的路径，空字符串表示根目录");
+            QStringLiteral("目录路径，空字符串表示工作目录");
         props[QStringLiteral("path")] = pathProp;
 
         QJsonObject params;
@@ -540,8 +593,7 @@ QJsonArray MainWindow::buildTools()
         QJsonObject fn;
         fn[QStringLiteral("name")] = QStringLiteral("get_system_info");
         fn[QStringLiteral("description")] =
-            QStringLiteral("获取系统信息，包括 CPU 核心数、内存使用情况、所有固定磁盘的空间。"
-                           "当用户询问系统状态、剩余内存、磁盘空间等问题时调用。");
+            QStringLiteral("获取系统信息，包括 CPU 核心数、内存使用情况、所有固定磁盘的空间。");
 
         QJsonObject params;
         params[QStringLiteral("type")] = QStringLiteral("object");
@@ -560,7 +612,8 @@ QJsonArray MainWindow::buildTools()
         QJsonObject fn;
         fn[QStringLiteral("name")] = QStringLiteral("write_file");
         fn[QStringLiteral("description")] =
-            QStringLiteral("在络樱工作目录下创建或覆盖一个文本文件。当用户要求写入、保存、创建文件时调用。");
+            QStringLiteral("在络樱工作目录下创建或覆盖一个文本文件。"
+                           "出于安全考虑，只能写入工作目录内。");
 
         QJsonObject props;
         QJsonObject pathProp;
@@ -617,7 +670,6 @@ QJsonArray MainWindow::buildTools()
         fn[QStringLiteral("name")] = QStringLiteral("execute_command");
         fn[QStringLiteral("description")] =
             QStringLiteral("执行只读类的 Windows 命令，例如 dir、type、where、ipconfig、systeminfo、tasklist 等。"
-                           "当用户要求查看目录内容、网络信息、运行进程等时调用。"
                            "不支持删除、修改、格式化等破坏性命令。");
 
         QJsonObject props;
@@ -631,6 +683,61 @@ QJsonArray MainWindow::buildTools()
         params[QStringLiteral("type")] = QStringLiteral("object");
         params[QStringLiteral("properties")] = props;
         params[QStringLiteral("required")] = QJsonArray{QStringLiteral("command")};
+        fn[QStringLiteral("parameters")] = params;
+
+        tool[QStringLiteral("function")] = fn;
+        tools.append(tool);
+    }
+
+    {
+        QJsonObject tool;
+        tool[QStringLiteral("type")] = QStringLiteral("function");
+
+        QJsonObject fn;
+        fn[QStringLiteral("name")] = QStringLiteral("get_file_info");
+        fn[QStringLiteral("description")] =
+            QStringLiteral("获取文件或目录的详细信息，包括大小、修改时间、类型。支持绝对路径。");
+
+        QJsonObject props;
+        QJsonObject pathProp;
+        pathProp[QStringLiteral("type")] = QStringLiteral("string");
+        pathProp[QStringLiteral("description")] = QStringLiteral("文件或目录路径");
+        props[QStringLiteral("path")] = pathProp;
+
+        QJsonObject params;
+        params[QStringLiteral("type")] = QStringLiteral("object");
+        params[QStringLiteral("properties")] = props;
+        params[QStringLiteral("required")] = QJsonArray{QStringLiteral("path")};
+        fn[QStringLiteral("parameters")] = params;
+
+        tool[QStringLiteral("function")] = fn;
+        tools.append(tool);
+    }
+
+    {
+        QJsonObject tool;
+        tool[QStringLiteral("type")] = QStringLiteral("function");
+
+        QJsonObject fn;
+        fn[QStringLiteral("name")] = QStringLiteral("search_files");
+        fn[QStringLiteral("description")] =
+            QStringLiteral("在指定目录内按文件名关键词搜索。默认为工作目录。");
+
+        QJsonObject props;
+        QJsonObject keywordProp;
+        keywordProp[QStringLiteral("type")] = QStringLiteral("string");
+        keywordProp[QStringLiteral("description")] = QStringLiteral("搜索关键词");
+        props[QStringLiteral("keyword")] = keywordProp;
+
+        QJsonObject pathProp;
+        pathProp[QStringLiteral("type")] = QStringLiteral("string");
+        pathProp[QStringLiteral("description")] = QStringLiteral("搜索目录，默认工作目录");
+        props[QStringLiteral("path")] = pathProp;
+
+        QJsonObject params;
+        params[QStringLiteral("type")] = QStringLiteral("object");
+        params[QStringLiteral("properties")] = props;
+        params[QStringLiteral("required")] = QJsonArray{QStringLiteral("keyword")};
         fn[QStringLiteral("parameters")] = params;
 
         tool[QStringLiteral("function")] = fn;
@@ -653,19 +760,18 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
     }
 
     if (name == QStringLiteral("read_file")) {
-        const QString rel = args[QStringLiteral("path")].toString();
-        const QString full = QDir(workDir).absoluteFilePath(rel);
+        const QString full = resolvePath(args[QStringLiteral("path")].toString());
 
-        if (!full.startsWith(workDir)) {
-            return QStringLiteral("[错误] 路径越界，只能访问络樱工作目录内的文件");
+        if (!isPathAllowed(full)) {
+            return QStringLiteral("[错误] 系统目录不允许访问: ") + full;
         }
 
         QFile f(full);
         if (!f.exists()) {
-            return QStringLiteral("[错误] 文件不存在: ") + rel;
+            return QStringLiteral("[错误] 文件不存在: ") + full;
         }
         if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            return QStringLiteral("[错误] 无法打开文件: ") + rel;
+            return QStringLiteral("[错误] 无法打开文件: ") + full;
         }
 
         const QByteArray data = f.read(8192);
@@ -683,16 +789,15 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
     }
 
     if (name == QStringLiteral("list_directory")) {
-        const QString rel = args[QStringLiteral("path")].toString();
-        const QString full = QDir(workDir).absoluteFilePath(rel);
+        const QString full = resolvePath(args[QStringLiteral("path")].toString());
 
-        if (!full.startsWith(workDir)) {
-            return QStringLiteral("[错误] 路径越界");
+        if (!isPathAllowed(full)) {
+            return QStringLiteral("[错误] 系统目录不允许访问: ") + full;
         }
 
         QDir dir(full);
         if (!dir.exists()) {
-            return QStringLiteral("[错误] 目录不存在: ") + rel;
+            return QStringLiteral("[错误] 目录不存在: ") + full;
         }
 
         const QFileInfoList entries = dir.entryInfoList(
@@ -705,6 +810,9 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
 
         QStringList lines;
         for (const QFileInfo &info : entries) {
+            if (info.fileName().startsWith(QLatin1Char('.'))) {
+                continue;
+            }
             QString line = info.fileName();
             if (info.isDir()) {
                 line += QStringLiteral("/");
@@ -721,8 +829,12 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
         const QString content = args[QStringLiteral("content")].toString();
         const QString full = QDir(workDir).absoluteFilePath(rel);
 
+        // 写入仍严格限制在工作目录内
         if (!full.startsWith(workDir)) {
-            return QStringLiteral("[错误] 路径越界，只能写入络樱工作目录内的文件");
+            return QStringLiteral("[错误] 出于安全考虑，只能写入络樱工作目录内的文件");
+        }
+        if (!isPathAllowed(full)) {
+            return QStringLiteral("[错误] 该路径不允许写入");
         }
 
         QFile f(full);
@@ -736,7 +848,7 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
         if (written != data.size()) {
             return QStringLiteral("[错误] 写入不完整，可能磁盘已满");
         }
-        return QStringLiteral("已写入 %1 字节到 %2").arg(written).arg(rel);
+        return QStringLiteral("已写入 %1 字节到 %2").arg(written).arg(full);
     }
 
     if (name == QStringLiteral("create_directory")) {
@@ -744,14 +856,102 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
         const QString full = QDir(workDir).absoluteFilePath(rel);
 
         if (!full.startsWith(workDir)) {
-            return QStringLiteral("[错误] 路径越界，只能在络樱工作目录内创建目录");
+            return QStringLiteral("[错误] 出于安全考虑，只能在络樱工作目录内创建目录");
         }
 
         QDir dir;
         if (dir.mkpath(full)) {
-            return QStringLiteral("已创建目录: ") + rel;
+            return QStringLiteral("已创建目录: ") + full;
         }
         return QStringLiteral("[错误] 创建目录失败: ") + rel;
+    }
+
+    if (name == QStringLiteral("get_file_info")) {
+        const QString full = resolvePath(args[QStringLiteral("path")].toString());
+
+        if (!isPathAllowed(full)) {
+            return QStringLiteral("[错误] 系统目录不允许访问: ") + full;
+        }
+
+        QFileInfo info(full);
+        if (!info.exists()) {
+            return QStringLiteral("[错误] 路径不存在: ") + full;
+        }
+
+        QStringList lines;
+        lines << QStringLiteral("路径: %1").arg(full);
+        lines << QStringLiteral("类型: %1")
+                     .arg(info.isDir() ? QStringLiteral("目录") : QStringLiteral("文件"));
+        if (info.isFile()) {
+            const qint64 size = info.size();
+            if (size < 1024) {
+                lines << QStringLiteral("大小: %1 字节").arg(size);
+            } else if (size < 1024 * 1024) {
+                lines << QStringLiteral("大小: %1 KB").arg(size / 1024.0, 0, 'f', 2);
+            } else {
+                lines << QStringLiteral("大小: %1 MB")
+                             .arg(size / (1024.0 * 1024.0), 0, 'f', 2);
+            }
+        }
+        lines << QStringLiteral("修改时间: %1")
+                     .arg(info.lastModified().toString(QStringLiteral("yyyy-MM-dd HH:mm:ss")));
+        lines << QStringLiteral("创建时间: %1")
+                     .arg(info.birthTime().toString(QStringLiteral("yyyy-MM-dd HH:mm:ss")));
+
+        return lines.join(QStringLiteral("\n"));
+    }
+
+    if (name == QStringLiteral("search_files")) {
+        const QString keyword = args[QStringLiteral("keyword")].toString().trimmed();
+        if (keyword.isEmpty()) {
+            return QStringLiteral("[错误] 搜索关键词为空");
+        }
+
+        const QString searchRoot = args.contains(QStringLiteral("path"))
+                                       ? resolvePath(args[QStringLiteral("path")].toString())
+                                       : workDir;
+
+        if (!isPathAllowed(searchRoot)) {
+            return QStringLiteral("[错误] 系统目录不允许搜索: ") + searchRoot;
+        }
+
+        QDir rootDir(searchRoot);
+        if (!rootDir.exists()) {
+            return QStringLiteral("[错误] 目录不存在: ") + searchRoot;
+        }
+
+        QStringList matches;
+        int count = 0;
+
+        // 深度限制 5 层，防止扫太多
+        QDirIterator it(searchRoot,
+                        QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot,
+                        QDirIterator::Subdirectories);
+
+        while (it.hasNext() && count < 50) {
+            it.next();
+            const QString fileName = it.fileName();
+            const QString relPath = rootDir.relativeFilePath(it.filePath());
+
+            if (relPath.startsWith(QLatin1Char('.'))
+                || relPath.contains(QStringLiteral("/."))
+                || relPath.contains(QStringLiteral("\\."))) {
+                continue;
+            }
+
+            if (fileName.contains(keyword, Qt::CaseInsensitive)) {
+                matches << it.filePath();
+                ++count;
+            }
+        }
+
+        if (matches.isEmpty()) {
+            return QStringLiteral("在 %1 下未找到包含“%2”的文件").arg(searchRoot, keyword);
+        }
+        if (count >= 50) {
+            matches << QStringLiteral("...[结果超过 50 条，只显示前 50 条]");
+        }
+        return matches.join(QStringLiteral("\n"));
     }
 
     if (name == QStringLiteral("execute_command")) {
@@ -855,7 +1055,6 @@ void MainWindow::sendMessage()
 
     m_toolRound = 0;
 
-    // 新建一个空的 AI 气泡，用于流式更新
     m_currentBubble = new MessageBubble(QString(), false, m_messageContainer);
     m_messageLayout->insertWidget(m_messageLayout->count() - 1, m_currentBubble);
     m_assistantText.clear();
@@ -863,7 +1062,6 @@ void MainWindow::sendMessage()
     m_streamBuffer.clear();
     m_pendingToolCalls = QJsonArray();
 
-    // 第一次请求走流式（如果模型决定调用工具，也能通过 SSE 发过来）
     sendRequest(true);
 }
 
@@ -898,6 +1096,11 @@ void MainWindow::onStreamReadyRead()
 
     m_streamBuffer.append(m_currentReply->readAll());
 
+    if (m_streamBuffer.size() > 1024 * 1024) {
+        m_streamBuffer.clear();
+        return;
+    }
+
     int newlineIdx = -1;
     while ((newlineIdx = m_streamBuffer.indexOf('\n')) != -1) {
         QByteArray line = m_streamBuffer.left(newlineIdx);
@@ -910,6 +1113,10 @@ void MainWindow::onStreamReadyRead()
 
         const QByteArray payload = line.mid(5).trimmed();
         if (payload == "[DONE]") {
+            continue;
+        }
+
+        if (payload.size() > 512 * 1024) {
             continue;
         }
 
@@ -927,20 +1134,22 @@ void MainWindow::onStreamReadyRead()
         const QJsonObject delta = choices[0].toObject()
                                       [QStringLiteral("delta")].toObject();
 
-        // 1. 文本片段
         const QString piece = delta[QStringLiteral("content")].toString();
         if (!piece.isEmpty()) {
-            m_assistantText += piece;
-            updateCurrentBubble(m_assistantText);
+            if (m_assistantText.size() < 1024 * 1024) {
+                m_assistantText += piece;
+                updateCurrentBubble(m_assistantText);
+            }
         }
 
-        // 2. tool_calls 片段
         const QJsonArray tcDelta = delta[QStringLiteral("tool_calls")].toArray();
         for (const QJsonValue &v : tcDelta) {
             const QJsonObject tc = v.toObject();
-            const int idx = tc[QStringLiteral("index")].toInt();
+            const int idx = tc[QStringLiteral("index")].toInt(-1);
+            if (idx < 0 || idx > 100) {
+                continue;
+            }
 
-            // 确保数组足够大
             while (m_pendingToolCalls.size() <= idx) {
                 m_pendingToolCalls.append(QJsonObject());
             }
@@ -966,8 +1175,11 @@ void MainWindow::onStreamReadyRead()
 
             const QString argsPiece = fnDelta[QStringLiteral("arguments")].toString();
             if (!argsPiece.isEmpty()) {
-                const QString prevArgs = fnAcc[QStringLiteral("arguments")].toString();
-                fnAcc[QStringLiteral("arguments")] = prevArgs + argsPiece;
+                QString prevArgs = fnAcc[QStringLiteral("arguments")].toString();
+                if (prevArgs.size() < 256 * 1024) {
+                    prevArgs += argsPiece;
+                    fnAcc[QStringLiteral("arguments")] = prevArgs;
+                }
             }
 
             acc[QStringLiteral("function")] = fnAcc;
@@ -978,14 +1190,12 @@ void MainWindow::onStreamReadyRead()
 
 void MainWindow::processToolCalls(const QJsonArray &toolCalls)
 {
-    // 把 assistant 消息（带 tool_calls）加入历史
     QJsonObject assistantMsg;
     assistantMsg[QStringLiteral("role")] = QStringLiteral("assistant");
 
     QJsonArray cleanCalls;
     for (const QJsonValue &v : toolCalls) {
         const QJsonObject call = v.toObject();
-        // 只保留必要字段
         QJsonObject clean;
         clean[QStringLiteral("id")] = call[QStringLiteral("id")];
         clean[QStringLiteral("type")] = QStringLiteral("function");
@@ -995,7 +1205,6 @@ void MainWindow::processToolCalls(const QJsonArray &toolCalls)
     assistantMsg[QStringLiteral("tool_calls")] = cleanCalls;
     m_history.append(assistantMsg);
 
-    // 执行每个工具
     for (const QJsonValue &v : toolCalls) {
         const QJsonObject call = v.toObject();
         const QString callId = call[QStringLiteral("id")].toString();
@@ -1022,8 +1231,6 @@ void MainWindow::processToolCalls(const QJsonArray &toolCalls)
         m_history.append(toolMsg);
     }
 
-    // 再次请求，这次用非流式（工具结果通常不需要流式显示）
-    // 但要新建一个气泡用于最终回复
     m_currentBubble = new MessageBubble(QString(), false, m_messageContainer);
     m_messageLayout->insertWidget(m_messageLayout->count() - 1, m_currentBubble);
     m_assistantText.clear();
@@ -1040,7 +1247,6 @@ void MainWindow::onReplyFinished()
         return;
     }
 
-    // 处理缓冲区里最后一个不完整的行
     QByteArray remaining = m_streamBuffer.trimmed();
     m_streamBuffer.clear();
     if (!remaining.isEmpty() && remaining.startsWith("data:")) {
@@ -1064,12 +1270,11 @@ void MainWindow::onReplyFinished()
     }
 
     const auto netError = m_currentReply->error();
+    const QString netErrorStr = m_currentReply->errorString();
     m_currentReply->deleteLater();
     m_currentReply = nullptr;
 
-    // 处理工具调用
     if (!m_pendingToolCalls.isEmpty()) {
-        // 如果气泡是空的，删掉它（工具调用会单独显示）
         if (m_assistantText.isEmpty() && !m_currentBubble.isNull()) {
             m_currentBubble->deleteLater();
             m_currentBubble = nullptr;
@@ -1087,7 +1292,6 @@ void MainWindow::onReplyFinished()
         return;
     }
 
-    // 普通文本回复
     if (!m_assistantText.isEmpty()) {
         QJsonObject assistantMsg;
         assistantMsg[QStringLiteral("role")] = QStringLiteral("assistant");
@@ -1096,8 +1300,7 @@ void MainWindow::onReplyFinished()
         m_currentBubble = nullptr;
     } else if (netError != QNetworkReply::NoError
                && netError != QNetworkReply::RemoteHostClosedError) {
-        // 忽略 llama-server 关闭连接的误报
-        updateCurrentBubble(QStringLiteral("[错误] ") + m_currentReply->errorString());
+        updateCurrentBubble(QStringLiteral("[错误] ") + netErrorStr);
     } else {
         updateCurrentBubble(QStringLiteral("[空回复]"));
     }
