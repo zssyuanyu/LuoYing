@@ -15,6 +15,7 @@
 #include <QDateTime>
 #include <QLabel>
 #include <QScrollBar>
+#include <QDesktopServices>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -25,12 +26,10 @@ static constexpr int kServerPort = 8080;
 
 // ============ 路径安全 ============
 
-// 返回 true 表示允许访问该路径
 static bool isPathAllowed(const QString &absPath)
 {
     const QString lower = QDir::toNativeSeparators(absPath).toLower();
 
-    // 系统敏感目录黑名单
     static const QStringList blockedRoots = {
         QStringLiteral("c:\\windows"),
         QStringLiteral("c:\\program files"),
@@ -285,7 +284,6 @@ QString MainWindow::findModelPath()
 
 QString MainWindow::findWorkDir()
 {
-    // 保持返回项目根目录，作为默认工作目录（用于相对路径解析）
     QDir dir(QCoreApplication::applicationDirPath());
     for (int i = 0; i < 3; ++i) {
         if (QFile::exists(dir.absoluteFilePath(QStringLiteral("CMakeLists.txt")))) {
@@ -298,24 +296,41 @@ QString MainWindow::findWorkDir()
     return QCoreApplication::applicationDirPath();
 }
 
-// 把用户输入的路径解析为绝对路径
 QString MainWindow::resolvePath(const QString &input)
 {
     const QString trimmed = input.trimmed();
 
-    // 空路径 → 工作目录
     if (trimmed.isEmpty()) {
         return findWorkDir();
     }
 
-    // 绝对路径
+    const QString workDir = findWorkDir();
+
     QFileInfo info(trimmed);
     if (info.isAbsolute()) {
-        return QDir::cleanPath(trimmed);
+        const QString absPath = QDir::cleanPath(trimmed);
+
+        // 如果绝对路径存在，直接用
+        if (QFile::exists(absPath)) {
+            return absPath;
+        }
+
+        // 如果绝对路径不存在，尝试把文件名部分拼到工作目录下
+        // 例如 "C:/CMakeLists.txt" → workDir + "/CMakeLists.txt"
+        const QString fileName = info.fileName();
+        if (!fileName.isEmpty()) {
+            const QString fallback = QDir::cleanPath(
+                QDir(workDir).absoluteFilePath(fileName));
+            if (QFile::exists(fallback)) {
+                return fallback;
+            }
+        }
+
+        // 都不存在，返回原始绝对路径（让后续报"文件不存在"）
+        return absPath;
     }
 
-    // 相对路径 → 相对工作目录
-    return QDir::cleanPath(QDir(findWorkDir()).absoluteFilePath(trimmed));
+    return QDir::cleanPath(QDir(workDir).absoluteFilePath(trimmed));
 }
 
 void MainWindow::startServer()
@@ -541,8 +556,10 @@ QJsonArray MainWindow::buildTools()
         QJsonObject fn;
         fn[QStringLiteral("name")] = QStringLiteral("read_file");
         fn[QStringLiteral("description")] =
-            QStringLiteral("读取电脑上任意文本文件的内容。支持绝对路径（如 D:/test.txt）"
-                           "和相对工作目录的路径。系统目录（如 C:/Windows）会被拒绝。");
+            QStringLiteral("用系统的默认程序打开文件或文件夹。"
+                           "当用户要求打开某个文件时调用。"
+                           "如果用户只说了文件名（如 CMakeLists.txt），"
+                           "请直接传文件名，不要加盘符或路径前缀。");
 
         QJsonObject props;
         QJsonObject pathProp;
@@ -744,6 +761,121 @@ QJsonArray MainWindow::buildTools()
         tools.append(tool);
     }
 
+    {
+        QJsonObject tool;
+        tool[QStringLiteral("type")] = QStringLiteral("function");
+
+        QJsonObject fn;
+        fn[QStringLiteral("name")] = QStringLiteral("delete_file");
+        fn[QStringLiteral("description")] =
+            QStringLiteral("删除络樱工作目录内的文件或空目录。出于安全考虑，"
+                           "只能删除工作目录内的内容，且不能递归删除非空目录。");
+
+        QJsonObject props;
+        QJsonObject pathProp;
+        pathProp[QStringLiteral("type")] = QStringLiteral("string");
+        pathProp[QStringLiteral("description")] = QStringLiteral("要删除的文件或目录路径");
+        props[QStringLiteral("path")] = pathProp;
+
+        QJsonObject params;
+        params[QStringLiteral("type")] = QStringLiteral("object");
+        params[QStringLiteral("properties")] = props;
+        params[QStringLiteral("required")] = QJsonArray{QStringLiteral("path")};
+        fn[QStringLiteral("parameters")] = params;
+
+        tool[QStringLiteral("function")] = fn;
+        tools.append(tool);
+    }
+
+    {
+        QJsonObject tool;
+        tool[QStringLiteral("type")] = QStringLiteral("function");
+
+        QJsonObject fn;
+        fn[QStringLiteral("name")] = QStringLiteral("copy_file");
+        fn[QStringLiteral("description")] =
+            QStringLiteral("复制文件。源文件可以在任何非系统目录，"
+                           "目标文件必须在络樱工作目录内。");
+
+        QJsonObject props;
+        QJsonObject srcProp;
+        srcProp[QStringLiteral("type")] = QStringLiteral("string");
+        srcProp[QStringLiteral("description")] = QStringLiteral("源文件路径");
+        props[QStringLiteral("source")] = srcProp;
+
+        QJsonObject dstProp;
+        dstProp[QStringLiteral("type")] = QStringLiteral("string");
+        dstProp[QStringLiteral("description")] = QStringLiteral("目标路径（工作目录内）");
+        props[QStringLiteral("destination")] = dstProp;
+
+        QJsonObject params;
+        params[QStringLiteral("type")] = QStringLiteral("object");
+        params[QStringLiteral("properties")] = props;
+        params[QStringLiteral("required")] =
+            QJsonArray{QStringLiteral("source"), QStringLiteral("destination")};
+        fn[QStringLiteral("parameters")] = params;
+
+        tool[QStringLiteral("function")] = fn;
+        tools.append(tool);
+    }
+
+    {
+        QJsonObject tool;
+        tool[QStringLiteral("type")] = QStringLiteral("function");
+
+        QJsonObject fn;
+        fn[QStringLiteral("name")] = QStringLiteral("move_file");
+        fn[QStringLiteral("description")] =
+            QStringLiteral("移动或重命名文件。源和目标都必须在络樱工作目录内。");
+
+        QJsonObject props;
+        QJsonObject srcProp;
+        srcProp[QStringLiteral("type")] = QStringLiteral("string");
+        srcProp[QStringLiteral("description")] = QStringLiteral("源路径（工作目录内）");
+        props[QStringLiteral("source")] = srcProp;
+
+        QJsonObject dstProp;
+        dstProp[QStringLiteral("type")] = QStringLiteral("string");
+        dstProp[QStringLiteral("description")] = QStringLiteral("目标路径（工作目录内）");
+        props[QStringLiteral("destination")] = dstProp;
+
+        QJsonObject params;
+        params[QStringLiteral("type")] = QStringLiteral("object");
+        params[QStringLiteral("properties")] = props;
+        params[QStringLiteral("required")] =
+            QJsonArray{QStringLiteral("source"), QStringLiteral("destination")};
+        fn[QStringLiteral("parameters")] = params;
+
+        tool[QStringLiteral("function")] = fn;
+        tools.append(tool);
+    }
+
+    {
+        QJsonObject tool;
+        tool[QStringLiteral("type")] = QStringLiteral("function");
+
+        QJsonObject fn;
+        fn[QStringLiteral("name")] = QStringLiteral("open_file");
+        fn[QStringLiteral("description")] =
+            QStringLiteral("用系统的默认程序打开文件或文件夹。"
+                           "当用户要求打开某个文件、查看图片、播放视频等时调用。");
+
+        QJsonObject props;
+        QJsonObject pathProp;
+        pathProp[QStringLiteral("type")] = QStringLiteral("string");
+        pathProp[QStringLiteral("description")] = QStringLiteral("要打开的文件或目录路径");
+        props[QStringLiteral("path")] = pathProp;
+
+        QJsonObject params;
+        params[QStringLiteral("type")] = QStringLiteral("object");
+        params[QStringLiteral("properties")] = props;
+        params[QStringLiteral("required")] = QJsonArray{QStringLiteral("path")};
+        fn[QStringLiteral("parameters")] = params;
+
+        tool[QStringLiteral("function")] = fn;
+        tools.append(tool);
+    }
+
     return tools;
 }
 
@@ -829,7 +961,6 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
         const QString content = args[QStringLiteral("content")].toString();
         const QString full = QDir(workDir).absoluteFilePath(rel);
 
-        // 写入仍严格限制在工作目录内
         if (!full.startsWith(workDir)) {
             return QStringLiteral("[错误] 出于安全考虑，只能写入络樱工作目录内的文件");
         }
@@ -923,7 +1054,6 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
         QStringList matches;
         int count = 0;
 
-        // 深度限制 5 层，防止扫太多
         QDirIterator it(searchRoot,
                         QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot,
                         QDirIterator::Subdirectories);
@@ -952,6 +1082,99 @@ QString MainWindow::executeTool(const QString &name, const QJsonObject &args)
             matches << QStringLiteral("...[结果超过 50 条，只显示前 50 条]");
         }
         return matches.join(QStringLiteral("\n"));
+    }
+
+    if (name == QStringLiteral("delete_file")) {
+        const QString rel = args[QStringLiteral("path")].toString();
+        const QString full = QDir(workDir).absoluteFilePath(rel);
+
+        if (!full.startsWith(workDir)) {
+            return QStringLiteral("[错误] 出于安全考虑，只能删除络樱工作目录内的内容");
+        }
+
+        QFileInfo info(full);
+        if (!info.exists()) {
+            return QStringLiteral("[错误] 路径不存在: ") + full;
+        }
+
+        if (info.isDir()) {
+            QDir dir(full);
+            if (!dir.isEmpty()) {
+                return QStringLiteral("[错误] 目录非空，无法删除。");
+            }
+            if (dir.rmdir(full)) {
+                return QStringLiteral("已删除空目录: ") + full;
+            }
+            return QStringLiteral("[错误] 删除目录失败: ") + full;
+        }
+
+        if (QFile::remove(full)) {
+            return QStringLiteral("已删除文件: ") + full;
+        }
+        return QStringLiteral("[错误] 删除文件失败: ") + full;
+    }
+
+    if (name == QStringLiteral("copy_file")) {
+        const QString srcFull = resolvePath(args[QStringLiteral("source")].toString());
+        const QString dstRel = args[QStringLiteral("destination")].toString();
+        const QString dstFull = QDir(workDir).absoluteFilePath(dstRel);
+
+        if (!isPathAllowed(srcFull)) {
+            return QStringLiteral("[错误] 源路径是系统目录，不允许访问: ") + srcFull;
+        }
+        if (!dstFull.startsWith(workDir)) {
+            return QStringLiteral("[错误] 目标必须在络樱工作目录内");
+        }
+        if (!QFile::exists(srcFull)) {
+            return QStringLiteral("[错误] 源文件不存在: ") + srcFull;
+        }
+        if (QFile::exists(dstFull)) {
+            return QStringLiteral("[错误] 目标文件已存在，无法覆盖: ") + dstFull;
+        }
+
+        if (QFile::copy(srcFull, dstFull)) {
+            return QStringLiteral("已复制到: ") + dstFull;
+        }
+        return QStringLiteral("[错误] 复制失败");
+    }
+
+    if (name == QStringLiteral("move_file")) {
+        const QString srcFull = QDir(workDir).absoluteFilePath(
+            args[QStringLiteral("source")].toString());
+        const QString dstFull = QDir(workDir).absoluteFilePath(
+            args[QStringLiteral("destination")].toString());
+
+        if (!srcFull.startsWith(workDir) || !dstFull.startsWith(workDir)) {
+            return QStringLiteral("[错误] 出于安全考虑，移动只能在络樱工作目录内进行");
+        }
+        if (!QFile::exists(srcFull)) {
+            return QStringLiteral("[错误] 源路径不存在: ") + srcFull;
+        }
+        if (QFile::exists(dstFull)) {
+            return QStringLiteral("[错误] 目标已存在，无法覆盖: ") + dstFull;
+        }
+
+        if (QFile::rename(srcFull, dstFull)) {
+            return QStringLiteral("已移动到: ") + dstFull;
+        }
+        return QStringLiteral("[错误] 移动失败");
+    }
+
+    if (name == QStringLiteral("open_file")) {
+        const QString full = resolvePath(args[QStringLiteral("path")].toString());
+
+        if (!isPathAllowed(full)) {
+            return QStringLiteral("[错误] 系统目录不允许打开: ") + full;
+        }
+        if (!QFile::exists(full)) {
+            return QStringLiteral("[错误] 路径不存在: ") + full;
+        }
+
+        const bool ok = QDesktopServices::openUrl(QUrl::fromLocalFile(full));
+        if (ok) {
+            return QStringLiteral("已用默认程序打开: ") + full;
+        }
+        return QStringLiteral("[错误] 无法打开: ") + full;
     }
 
     if (name == QStringLiteral("execute_command")) {
