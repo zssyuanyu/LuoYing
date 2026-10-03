@@ -16,6 +16,8 @@
 #include <QLabel>
 #include <QScrollBar>
 #include <QDesktopServices>
+#include <QInputDialog>
+#include <QSettings>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -269,17 +271,93 @@ QString MainWindow::findServerPath()
     return QString();
 }
 
-QString MainWindow::findModelPath()
+// 扫描 models 目录，返回所有候选模型的完整路径
+QString MainWindow::selectModelPath()
 {
-    const QString p1 = QCoreApplication::applicationDirPath()
-    + QStringLiteral("/models/Qwen2.5-7B-Instruct-Q4_K_M.gguf");
-    if (QFile::exists(p1)) return p1;
+    QStringList names;
+    QStringList fullPaths;
 
-    const QString p2 = QStringLiteral(
-        "D:/C++_python_html/C++/llama.cpp/llama.cpp-master/models/Qwen2.5-7B-Instruct-Q4_K_M.gguf");
-    if (QFile::exists(p2)) return p2;
+    // 辅助 lambda：扫描目录，过滤掉词表文件和分片文件
+    auto scanDir = [](const QDir &dir, QStringList &outNames, QStringList &outPaths) {
+        if (!dir.exists()) return;
 
-    return QString();
+        const QFileInfoList files = dir.entryInfoList(
+            {QStringLiteral("*.gguf")}, QDir::Files, QDir::Name);
+
+        for (const QFileInfo &fi : files) {
+            const QString fn = fi.fileName();
+
+            // 跳过 llama.cpp 自带的词表文件
+            if (fn.startsWith(QStringLiteral("ggml-vocab-"))) {
+                continue;
+            }
+            // 跳过分片文件（只保留合并后的完整文件）
+            if (fn.contains(QStringLiteral("-of-0000"))) {
+                continue;
+            }
+
+            outNames << fn;
+            outPaths << fi.absoluteFilePath();
+        }
+    };
+
+    // 1. 优先：exe 同目录/models
+    QDir appModelDir(QCoreApplication::applicationDirPath() + QStringLiteral("/models"));
+    scanDir(appModelDir, names, fullPaths);
+
+    // 2. 回退：开发环境路径
+    if (names.isEmpty()) {
+        QDir devDir(QStringLiteral(
+            "D:/C++_python_html/C++/llama.cpp/llama.cpp-master/models"));
+        scanDir(devDir, names, fullPaths);
+    }
+
+    if (names.isEmpty()) {
+        return QString();
+    }
+
+    // 只有一个：直接用
+    if (names.size() == 1) {
+        m_currentModelName = QFileInfo(names[0]).completeBaseName();
+        return fullPaths[0];
+    }
+
+    // 多个：读取上次选择
+    QSettings settings(QStringLiteral("LuoYing"), QStringLiteral("LuoYing"));
+    const QString lastSelected = settings.value(QStringLiteral("model/lastSelected")).toString();
+
+    int defaultIndex = 0;
+    if (!lastSelected.isEmpty()) {
+        for (int i = 0; i < names.size(); ++i) {
+            if (names[i] == lastSelected) {
+                defaultIndex = i;
+                break;
+            }
+        }
+    }
+
+    // 弹出选择对话框
+    bool ok = false;
+    const QString chosen = QInputDialog::getItem(
+        this,
+        QStringLiteral("选择模型"),
+        QStringLiteral("检测到多个模型文件，请选择要加载的：\n"
+                       "（下次启动会默认选择本次所选）"),
+        names,
+        defaultIndex,
+        false,
+        &ok);
+
+    if (!ok || chosen.isEmpty()) {
+        return QString();
+    }
+
+    // 记住选择
+    settings.setValue(QStringLiteral("model/lastSelected"), chosen);
+
+    const int idx = names.indexOf(chosen);
+    m_currentModelName = QFileInfo(chosen).completeBaseName();
+    return fullPaths[idx];
 }
 
 QString MainWindow::findWorkDir()
@@ -309,14 +387,9 @@ QString MainWindow::resolvePath(const QString &input)
     QFileInfo info(trimmed);
     if (info.isAbsolute()) {
         const QString absPath = QDir::cleanPath(trimmed);
-
-        // 如果绝对路径存在，直接用
         if (QFile::exists(absPath)) {
             return absPath;
         }
-
-        // 如果绝对路径不存在，尝试把文件名部分拼到工作目录下
-        // 例如 "C:/CMakeLists.txt" → workDir + "/CMakeLists.txt"
         const QString fileName = info.fileName();
         if (!fileName.isEmpty()) {
             const QString fallback = QDir::cleanPath(
@@ -325,8 +398,6 @@ QString MainWindow::resolvePath(const QString &input)
                 return fallback;
             }
         }
-
-        // 都不存在，返回原始绝对路径（让后续报"文件不存在"）
         return absPath;
     }
 
@@ -344,7 +415,7 @@ void MainWindow::startServer()
     }
 
     const QString serverPath = findServerPath();
-    const QString modelPath = findModelPath();
+    const QString modelPath = selectModelPath();
 
     if (serverPath.isEmpty()) {
         addMessage(QStringLiteral("络樱"),
@@ -353,9 +424,13 @@ void MainWindow::startServer()
     }
     if (modelPath.isEmpty()) {
         addMessage(QStringLiteral("络樱"),
-                   QStringLiteral("[错误] 找不到模型文件"));
+                   QStringLiteral("[错误] 找不到模型文件。\n"
+                                  "请把 .gguf 模型放到 models 文件夹里，或运行 download_model.bat 下载。"));
         return;
     }
+
+    addMessage(QStringLiteral("络樱"),
+               QStringLiteral("正在加载模型：%1").arg(m_currentModelName));
 
     m_serverProcess = new QProcess(this);
     m_serverProcess->setWorkingDirectory(QFileInfo(serverPath).absolutePath());
@@ -410,7 +485,8 @@ void MainWindow::checkServerReady()
         m_serverReady = true;
         m_sendBtn->setEnabled(true);
         m_sendBtn->setText(QStringLiteral("发送"));
-        addMessage(QStringLiteral("络樱"), QStringLiteral("你好，我是络樱。有什么可以帮你的？"));
+        addMessage(QStringLiteral("络樱"),
+                   QStringLiteral("你好，我是络樱。有什么可以帮你的？"));
     }
 }
 
@@ -556,10 +632,8 @@ QJsonArray MainWindow::buildTools()
         QJsonObject fn;
         fn[QStringLiteral("name")] = QStringLiteral("read_file");
         fn[QStringLiteral("description")] =
-            QStringLiteral("用系统的默认程序打开文件或文件夹。"
-                           "当用户要求打开某个文件时调用。"
-                           "如果用户只说了文件名（如 CMakeLists.txt），"
-                           "请直接传文件名，不要加盘符或路径前缀。");
+            QStringLiteral("读取电脑上任意文本文件的内容。支持绝对路径（如 D:/test.txt）"
+                           "和相对工作目录的路径。系统目录（如 C:/Windows）会被拒绝。");
 
         QJsonObject props;
         QJsonObject pathProp;
@@ -858,7 +932,9 @@ QJsonArray MainWindow::buildTools()
         fn[QStringLiteral("name")] = QStringLiteral("open_file");
         fn[QStringLiteral("description")] =
             QStringLiteral("用系统的默认程序打开文件或文件夹。"
-                           "当用户要求打开某个文件、查看图片、播放视频等时调用。");
+                           "当用户要求打开某个文件、查看图片、播放视频等时调用。"
+                           "如果用户只说了文件名（如 CMakeLists.txt），"
+                           "请直接传文件名，不要加盘符或路径前缀。");
 
         QJsonObject props;
         QJsonObject pathProp;

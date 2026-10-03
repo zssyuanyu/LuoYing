@@ -41,11 +41,13 @@ private:
     void sendRequest(bool stream);
     void processToolCalls(const QJsonArray &toolCalls);
     void scrollToBottom();
+
     QString resolvePath(const QString &input);
+
     void startServer();
     bool isServerRunning();
     QString findServerPath();
-    QString findModelPath();
+    QString selectModelPath();   // 改为选择模型
     QString findWorkDir();
 
     QNetworkAccessManager *m_manager = nullptr;
@@ -73,6 +75,9 @@ private:
 
     int m_toolRound = 0;
     static constexpr int kMaxToolRounds = 5;
+
+    // 当前使用的模型名（去掉 .gguf 后缀），供工具描述和系统提示词参考
+    QString m_currentModelName;
 
     const QString m_systemPrompt =
         QStringLiteral("你叫络樱，是一个本地运行的 AI 助手。"
